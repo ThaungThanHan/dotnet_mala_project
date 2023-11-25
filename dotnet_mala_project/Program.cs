@@ -148,13 +148,48 @@ namespace MenuDrivenCLI
         {
             //
             MenuTopBar();
-            DisplayCustomMenuOpetion();
+            DisplayCustomMenuOptions();
         }
 
         // custom menu opetion
-        static void DisplayCustomMenuOpetion()
+        static void DisplayCustomMenuOptions()
         {
             //
+            List<int> itemQuantity = new List<int>(new int[10]);
+            List<int> itemInStock = new List<int>() { 9, 9, 9, 9, 9, 9, 9, 9, 9, 9 };
+            List<int> itemPrice = new List<int>() { 5, 5, 10, 5, 5, 10, 10, 7, 5, 5 };
+            List<string> items = new List<string>() { "crab stick", "sausage", "noodle", "tofu", "chicken",
+                                                    "mushroom", "enoki", "broccoli", "potato", "quail egg" };
+
+            ConsoleKeyInfo Readkey;
+            int menuoption = 1;
+            bool isSelected = false;
+            (int left, int top) = Console.GetCursorPosition();
+            Console.CursorVisible = false;
+            string color = "\u001b[33;1m";
+            while (!isSelected)
+            {
+                Console.SetCursorPosition(left, top);
+                for(int i = 0; i < items.Count(); i++)
+                {
+                    Console.WriteLine($"\n\t{(menuoption == i+1?color + "[]" : "  ")}{(items[i])}\u001b[0m");
+                }
+                Readkey = Console.ReadKey(true);
+
+                switch (Readkey.Key)
+                {
+                    case ConsoleKey.DownArrow:
+                        menuoption = (menuoption == items.Count() ? 1 : menuoption + 1);
+                        break;
+                    case ConsoleKey.UpArrow:
+                        menuoption = (menuoption == 1 ? items.Count() : menuoption - 1);
+                        break;
+                    case ConsoleKey.Enter:
+                        isSelected = true;
+                        break;
+                }
+
+            }
         }
 
         // spicy level
