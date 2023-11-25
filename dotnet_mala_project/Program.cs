@@ -72,6 +72,7 @@ namespace MenuDrivenCLI
             MenuTopBar();
             Console.WriteLine("DineIN");
             DisplayMenu();
+
         }
 
         // take away
@@ -200,7 +201,38 @@ namespace MenuDrivenCLI
         // spicy level
         static void DisplaySpicyLivelTable()
         {
-            //
+            Console.WriteLine("Select your spicy level");
+            ConsoleKeyInfo Readkey;
+            int option = 1;
+            bool isSelected = false;
+            (int left, int top) = Console.GetCursorPosition();
+            Console.CursorVisible = false;
+            string color = "\u001b[33;1m";
+            while (!isSelected)
+            {
+                Console.SetCursorPosition(left, top);
+                Console.WriteLine($"\n\t{(option == 1 ? color + "[]" : "  ")}Mild\u001b[0m");
+                Console.WriteLine($"\t{(option == 2 ? color + "[]" : "  ")}Medium\u001b[0m");
+                Console.WriteLine($"\t{(option == 3 ? color + "[]" : "  ")}Hot\u001b[0m");
+                Console.WriteLine($"\t{(option == 4 ? color + "[]" : "  ")}Extra Hot\u001b[0m");
+
+
+                Readkey = Console.ReadKey(true);
+
+                switch (Readkey.Key)
+                {
+                    case ConsoleKey.DownArrow:
+                        option = (option == 4 ? 1 : option + 1);
+                        break;
+                    case ConsoleKey.UpArrow:
+                        option = (option == 1 ? 4 : option - 1);
+                        break;
+                    case ConsoleKey.Enter:
+                        isSelected = true;
+                        break;
+                }
+
+            }
         }
 
         // dry or soup
