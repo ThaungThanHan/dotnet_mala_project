@@ -155,11 +155,12 @@ namespace MenuDrivenCLI
         static void DisplayCustomMenuOptions()
         {
             //
+            int totalAmount = 0;
             List<int> itemQuantity = new List<int>(new int[10]);
             List<int> itemInStock = new List<int>() { 9, 9, 9, 9, 9, 9, 9, 9, 9, 9 };
             List<int> itemPrice = new List<int>() { 5, 5, 10, 5, 5, 10, 10, 7, 5, 5 };
-            List<string> items = new List<string>() { "crab stick", "sausage", "noodle", "tofu", "chicken",
-                                                    "mushroom", "enoki", "broccoli", "potato", "quail egg" };
+            List<string> items = new List<string>() { "crab stick", "sausage", "noodle", "fish tofu", "chicken",
+                                                    "mushroom", "enoki(1g)", "broccoli", "potato", "quail egg" };
 
             ConsoleKeyInfo Readkey;
             int menuoption = 1;
@@ -167,13 +168,17 @@ namespace MenuDrivenCLI
             (int left, int top) = Console.GetCursorPosition();
             Console.CursorVisible = false;
             string color = "\u001b[33;1m";
+
+            Console.WriteLine("\t   Items\t\tQuantity\t\t  Amount\n");
             while (!isSelected)
             {
                 Console.SetCursorPosition(left, top);
-                for(int i = 0; i < items.Count(); i++)
+                for (int i = 0; i < items.Count(); i++)
                 {
-                    Console.WriteLine($"\n\t{(menuoption == i+1?color + "[]" : "  ")}{(items[i])}\u001b[0m");
+                    Console.WriteLine($"\n\t{(menuoption == i + 1 ? color + "[]" : "  ")}{(items[i])}\u001b[0m" +
+                        $"\t\t   {(itemQuantity[i])}" + $"\t\t\t  {(itemPrice[i] * itemQuantity[i])} Baht");
                 }
+                Console.WriteLine("\n\tTotal amount : {0} Baht", totalAmount);
                 Readkey = Console.ReadKey(true);
 
                 switch (Readkey.Key)
