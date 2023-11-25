@@ -15,32 +15,85 @@ namespace MenuDrivenCLI
         // Main
         static void Main(string[] args)
         {
+            MenuTopBar();
             Console.WriteLine("Welcome to the DotNet-MaLa Menu CLI!");
             Console.WriteLine("Choose an option:");
+
+            ConsoleKeyInfo Readkey;
+            int option = 1;
+            bool isSelected = false;
+            (int left, int top) = Console.GetCursorPosition();
+            Console.CursorVisible = false;
+            string color = "\u001b[33;1m";
+            while (!isSelected)
+            {
+                Console.SetCursorPosition(left, top);
+                Console.WriteLine($"\n\t{(option == 1 ? color + "[]" : "  ")}Dine IN\u001b[0m");
+                Console.WriteLine($"\t{(option == 2 ? color + "[]" : "  ")}Take Away\u001b[0m");
+            
+            Readkey = Console.ReadKey(true);
+
+            switch(Readkey.Key){
+                case ConsoleKey.DownArrow:
+                 option = (option == 2? 1: 2); 
+                 break;
+                case ConsoleKey.UpArrow:
+                    option = (option == 1 ? 2 : 1);
+                    break;
+                case ConsoleKey.Enter:
+                  isSelected = true;
+                  break;
+            }
+            }
+            int seletedOption = option;
+            switch (seletedOption){
+                case 1:
+                    DineIn();
+                    break;
+                case 2:
+                   TakeAway();
+                   break;
+
+
+            }
+
+        }
+
+        static void MenuTopBar()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("\n\n\tDotNet-MaLa Menu CLI!\n");
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         // dine in
         static void DineIn()
         {
-            DisplayMenu();
+            MenuTopBar();
+            Console.WriteLine("DineIN");
+            // DisplayMenu();
         }
 
         // take away
         static void TakeAway()
         {
-            DisplayMenu();
+            MenuTopBar();
+            Console.WriteLine("TakeAway");
+            // DisplayMenu();
         }
 
         // menu
         static void DisplayMenu()
         {
+            MenuTopBar();
             bool exitRequested = false;
-            
+
         }
 
         // single 
         static void SingleMeuTable()
         {
+            MenuTopBar();
             //
         }
 
@@ -53,7 +106,7 @@ namespace MenuDrivenCLI
         // custom
         static void DisplayCustomMenuTable()
         {
-           //
+            //
         }
 
         // custom menu opetion
