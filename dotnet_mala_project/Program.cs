@@ -71,7 +71,7 @@ namespace MenuDrivenCLI
         {
             MenuTopBar();
             Console.WriteLine("DineIN");
-            // DisplayMenu();
+            DisplayMenu();
         }
 
         // take away
@@ -79,15 +79,54 @@ namespace MenuDrivenCLI
         {
             MenuTopBar();
             Console.WriteLine("TakeAway");
-            // DisplayMenu();
+            DisplayMenu();
         }
 
         // menu
         static void DisplayMenu()
         {
             MenuTopBar();
-            bool exitRequested = false;
+            ConsoleKeyInfo Readkey;
+            int menuoption = 1;
+            bool isSelected = false;
+            (int left, int top) = Console.GetCursorPosition();
+            Console.CursorVisible = false;
+            string color = "\u001b[33;1m";
+            while (!isSelected)
+            {
+                Console.SetCursorPosition(left, top);
+                Console.WriteLine($"\n\t{(menuoption == 1 ? color + "[]" : "  ")}Single set\u001b[0m");
+                Console.WriteLine($"\t{(menuoption == 2 ? color + "[]" : "  ")}Couple Set\u001b[0m");
+                Console.WriteLine($"\t{(menuoption == 3 ? color + "[]" : "  ")}Custom Set\u001b[0m");
 
+                Readkey = Console.ReadKey(true);
+
+                switch (Readkey.Key)
+                {
+                    case ConsoleKey.DownArrow:
+                        menuoption = (menuoption == 3 ? 1 : menuoption + 1);
+                        break;
+                    case ConsoleKey.UpArrow:
+                        menuoption = (menuoption == 1 ? 3 : menuoption - 1);
+                        break;
+                    case ConsoleKey.Enter:
+                        isSelected = true;
+                        break;
+                }
+            }
+            int seletedOption = menuoption;
+            switch (seletedOption)
+            {
+                case 1:
+                    SingleMeuTable();
+                    break;
+                case 2:
+                    CoupleMenuTable();
+                    break;
+                case 3:
+                    DisplayCustomMenuTable();
+                    break;
+            }
         }
 
         // single 
@@ -98,15 +137,18 @@ namespace MenuDrivenCLI
         }
 
         // couple
-        static void DisplayMenuTable()
+        static void CoupleMenuTable()
         {
             //
+            MenuTopBar();
         }
 
         // custom
         static void DisplayCustomMenuTable()
         {
             //
+            MenuTopBar();
+            DisplayCustomMenuOpetion();
         }
 
         // custom menu opetion
