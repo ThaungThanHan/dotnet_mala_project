@@ -238,7 +238,37 @@ namespace MenuDrivenCLI
         // dry or soup
         static void DispleyDryOrSoupTable()
         {
-            //
+            Console.WriteLine("Dry or Soup");
+            ConsoleKeyInfo Readkey;
+            int option = 1;
+            bool isSelected = false;
+            (int left, int top) = Console.GetCursorPosition();
+            Console.CursorVisible = false;
+            string color = "\u001b[33;1m";
+            while (!isSelected)
+            {
+                Console.SetCursorPosition(left, top);
+                Console.WriteLine($"\n\t{(option == 1 ? color + "[]" : "  ")}Dry\u001b[0m");
+                Console.WriteLine($"\t{(option == 2 ? color + "[]" : "  ")}Soup\u001b[0m");
+               
+
+
+                Readkey = Console.ReadKey(true);
+
+                switch (Readkey.Key)
+                {
+                    case ConsoleKey.DownArrow:
+                        option = (option == 2 ? 1 : 2);
+                        break;
+                    case ConsoleKey.UpArrow:
+                        option = (option == 1 ? 2 : 1);
+                        break;
+                    case ConsoleKey.Enter:
+                        isSelected = true;
+                        break;
+                }
+
+            }
         }
 
         // drink
