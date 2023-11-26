@@ -170,18 +170,17 @@ namespace MenuDrivenCLI
             Console.CursorVisible = false;
             string color = "\u001b[33;1m";
 
-            Console.WriteLine("\t   Items\t\tQuantity\t\t  Amount\n");
+            Console.WriteLine("\t   Items\t\tQuantity\t Instock\t  Price\n");
             while (!isSelected)
             {
                 Console.SetCursorPosition(left, top);
                 for (int i = 0; i < items.Count(); i++)
                 {
                     Console.WriteLine($"\n\t{(menuoption == i + 1 ? color + "[]" : "  ")}{(items[i])}\u001b[0m" +
-                        $"\t\t   {(itemQuantity[i])}" + $"\t\t\t  {(itemPrice[i] * itemQuantity[i])} Baht");
-                }
-                Console.WriteLine("\n\tTotal amount : {0} Baht", totalAmount);
+                        $"\t\t   {(itemQuantity[i])}" + $"\t\t    {itemInStock[i]}" + $"\t\t    {itemPrice[i]}");
+            }
+                Console.WriteLine("\n\tTotal amount: " + totalAmount);
                 Readkey = Console.ReadKey(true);
-
                 switch (Readkey.Key)
                 {
                     case ConsoleKey.DownArrow:
@@ -190,12 +189,39 @@ namespace MenuDrivenCLI
                     case ConsoleKey.UpArrow:
                         menuoption = (menuoption == 1 ? items.Count() : menuoption - 1);
                         break;
+                    case ConsoleKey.RightArrow:
+                        if (itemInStock[menuoption - 1] > 0) { 
+                            itemQuantity[menuoption - 1] += 1;
+                            itemInStock[menuoption - 1] -= 1;
+                            totalAmount += itemPrice[menuoption - 1];
+                            ClearLine();
+                        };
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        if (itemQuantity[menuoption - 1] > 0) { 
+                            itemQuantity[menuoption - 1] -= 1;
+                            itemInStock[menuoption - 1] += 1;
+                            totalAmount -= itemPrice[menuoption - 1];
+                            ClearLine();
+                        }
+                        break;
                     case ConsoleKey.Enter:
                         isSelected = true;
                         break;
                 }
 
             }
+            Console.WriteLine(totalAmount);
+        }
+        public static void ClearLine()
+        {
+            Console.SetCursorPosition(0, Console.CursorTop - 1);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, Console.CursorTop - 1);
+        }
+        static string turnToString(int number)
+        {
+            return Convert.ToString(number);
         }
 
         // spicy level
