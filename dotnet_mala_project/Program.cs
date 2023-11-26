@@ -219,10 +219,6 @@ namespace MenuDrivenCLI
             Console.Write(new string(' ', Console.WindowWidth));
             Console.SetCursorPosition(0, Console.CursorTop - 1);
         }
-        static string turnToString(int number)
-        {
-            return Convert.ToString(number);
-        }
 
         // spicy level
         static void DisplaySpicyLivelTable()
@@ -301,6 +297,65 @@ namespace MenuDrivenCLI
         static void DisplayDrinkTable()
         {
             //
+            int totalAmount = 0;
+            List<int> itemQuantity = new List<int>(new int[6]);
+            List<int> itemInStock = new List<int>() { 9, 9, 9, 9, 9, 9};
+            List<int> itemPrice = new List<int>() { 10, 15, 15, 15, 15, 10};
+            List<string> items = new List<string>() { "Water bottle", "Coca-cola", "Sprite", "Melon Milk", "Sunkist",
+                                                    "Iced Tea"};
+
+            ConsoleKeyInfo Readkey;
+            int menuoption = 1;
+            bool isSelected = false;
+            (int left, int top) = Console.GetCursorPosition();
+            Console.CursorVisible = false;
+            string color = "\u001b[33;1m";
+
+            Console.WriteLine("\t   Items\t\tQuantity\t Instock\t  Price\n");
+            while (!isSelected)
+            {
+                Console.SetCursorPosition(left, top);
+                for (int i = 0; i < items.Count(); i++)
+                {
+                    Console.WriteLine($"\n\t{(menuoption == i + 1 ? color + "[]" : "  ")}{(items[i])}\u001b[0m" +
+                        $"\t\t   {(itemQuantity[i])}" + $"\t\t    {itemInStock[i]}" + $"\t\t    {itemPrice[i]}");
+                }
+                Console.WriteLine("\n\tTotal amount: " + totalAmount);
+                Readkey = Console.ReadKey(true);
+                switch (Readkey.Key)
+                {
+                    case ConsoleKey.DownArrow:
+                        menuoption = (menuoption == items.Count() ? 1 : menuoption + 1);
+                        break;
+                    case ConsoleKey.UpArrow:
+                        menuoption = (menuoption == 1 ? items.Count() : menuoption - 1);
+                        break;
+                    case ConsoleKey.RightArrow:
+                        if (itemInStock[menuoption - 1] > 0)
+                        {
+                            itemQuantity[menuoption - 1] += 1;
+                            itemInStock[menuoption - 1] -= 1;
+                            totalAmount += itemPrice[menuoption - 1];
+                            ClearLine();
+                        };
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        if (itemQuantity[menuoption - 1] > 0)
+                        {
+                            itemQuantity[menuoption - 1] -= 1;
+                            itemInStock[menuoption - 1] += 1;
+                            totalAmount -= itemPrice[menuoption - 1];
+                            ClearLine();
+                        }
+                        break;
+                    case ConsoleKey.Enter:
+                        isSelected = true;
+                        break;
+                }
+
+            }
+            Console.WriteLine(totalAmount);
+
         }
 
         // card ( edit & details )
