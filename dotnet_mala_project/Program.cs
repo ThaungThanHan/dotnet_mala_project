@@ -71,6 +71,7 @@ namespace MenuDrivenCLI
         {
             MenuTopBar();
             Console.WriteLine("DineIN");
+            Console.Clear();
             DisplayMenu();
 
         }
@@ -80,6 +81,7 @@ namespace MenuDrivenCLI
         {
             MenuTopBar();
             Console.WriteLine("TakeAway");
+            Console.Clear();
             DisplayMenu();
         }
 
@@ -149,6 +151,7 @@ namespace MenuDrivenCLI
         {
             //
             MenuTopBar();
+            Console.Clear();
             DisplayCustomMenuOptions();
         }
 
@@ -170,9 +173,11 @@ namespace MenuDrivenCLI
             Console.CursorVisible = false;
             string color = "\u001b[33;1m";
 
+            
             Console.WriteLine("\t   Items\t\tQuantity\t\t  Amount\n");
             while (!isSelected)
             {
+                Console.Clear();
                 Console.SetCursorPosition(left, top);
                 for (int i = 0; i < items.Count(); i++)
                 {
@@ -180,8 +185,8 @@ namespace MenuDrivenCLI
                         $"\t\t   {(itemQuantity[i])}" + $"\t\t\t  {(itemPrice[i] * itemQuantity[i])} Baht");
                 }
                 Console.WriteLine("\n\tTotal amount : {0} Baht", totalAmount);
+                
                 Readkey = Console.ReadKey(true);
-
                 switch (Readkey.Key)
                 {
                     case ConsoleKey.DownArrow:
@@ -194,7 +199,6 @@ namespace MenuDrivenCLI
                         isSelected = true;
                         break;
                 }
-
             }
         }
 
@@ -284,10 +288,64 @@ namespace MenuDrivenCLI
         }
 
         // coupon
-        static void DisplayCouponTable()
+        static void DisplayCouponTable(int totalAmount)
         {
-            //
+            List<int> couponCode = new List<int>() { 998834,969340,010221,020325,992400, 183654 ,490827 };
+            Console.WriteLine("Do you have any coupon code?");
+            double discount = 0.0;
+            ConsoleKeyInfo Readkey;
+            int option = 1;
+            bool isSelected = false;
+            (int left, int top) = Console.GetCursorPosition();
+            Console.CursorVisible = false;
+            string color = "\u001b[33;1m";
+
+            while(!isSelected)
+            {
+                Console.WriteLine($"\n\t{(option == 1 ? color + ">" : " ")}Yes\u001b[0m");
+                Console.WriteLine($"\t{(option == 2 ? color + ">" : " ")}No\u001b[0m");
+            }
+
+             Readkey = Console.ReadKey(true);
+
+            switch (Readkey.Key)
+            {
+                case ConsoleKey.DownArrow:
+                    option = (option == 2 ? 1 : 2);
+                    break;
+                case ConsoleKey.UpArrow:
+                    option = (option == 1 ? 2 : 1);
+                    break;
+                case ConsoleKey.Enter:
+                    isSelected = true;
+                    break;
+
+            }
+
+            
+            if (isSelected && option == 1)
+            {
+                Console.WriteLine("Enter your coupon code: ");
+                int enteredCode;
+                if(int.TryParse(Console.ReadLine(), out enteredCode))
+                {
+                    if(couponCode.Contains(enteredCode))
+                    {
+                        discount = totalAmount * 0.05;
+                        Console.WriteLine($"Discount of {discount} Baht applied");
+                    }else
+                    {
+                        Console.WriteLine("Invalid coupon code. No discount applied");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid coupon code. No discount applied");
+                }
+            }
+
         }
+
 
         // purchace
         static void Purchace()
