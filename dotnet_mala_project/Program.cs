@@ -301,7 +301,48 @@ namespace MenuDrivenCLI
         static void DisplayDrinkTable()
         {
             //
-        }
+            int totalAmount = 0;
+            List<int> itemQuantity = new List<int>(new int[5]);
+            List<int> itemInStock = new List<int>() { 9, 9, 9, 9, 9};
+            List<int> itemPrice = new List<int>() { 15, 15, 20, 10, 20 };
+            List<string> items = new List<string>() { "cola", "sprite", "milk", "water", "orange" };
+
+            ConsoleKeyInfo Readkey;
+            int menuoption = 1;
+            bool isSelected = false;
+            (int left, int top) = Console.GetCursorPosition();
+            Console.CursorVisible = false;
+            string color = "\u001b[33;1m";
+
+
+            Console.WriteLine("\t   Items\t\tQuantity\t\t  Amount\n");
+            while (!isSelected)
+            {
+                Console.Clear();
+                Console.SetCursorPosition(left, top);
+                for (int i = 0; i < items.Count(); i++)
+                {
+                    Console.WriteLine($"\n\t{(menuoption == i + 1 ? color + "[]" : "  ")}{(items[i])}\u001b[0m" +
+                        $"\t\t   {(itemQuantity[i])}" + $"\t\t\t  {(itemPrice[i] * itemQuantity[i])} Baht");
+                }
+                Console.WriteLine("\n\tTotal amount : {0} Baht", totalAmount);
+
+                Readkey = Console.ReadKey(true);
+                switch (Readkey.Key)
+                {
+                    case ConsoleKey.DownArrow:
+                        menuoption = (menuoption == items.Count() ? 1 : menuoption + 1);
+                        break;
+                    case ConsoleKey.UpArrow:
+                        menuoption = (menuoption == 1 ? items.Count() : menuoption - 1);
+                        break;
+                    case ConsoleKey.Enter:
+                        isSelected = true;
+                        break;
+                }
+            }
+        
+    }
 
         // card ( edit & details )
         static void DisplayCard_Edit_Details()
