@@ -203,7 +203,7 @@ namespace MenuDrivenCLI
         }
 
         // spicy level
-        static void DisplaySpicyLivelTable()
+        static void DisplaySpicyLevelTable()
         {
             Console.WriteLine("Select your spicy level");
             ConsoleKeyInfo Readkey;
