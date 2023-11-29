@@ -137,16 +137,7 @@ namespace MenuDrivenCLI
         {
             MenuTopBar();
             const int singleMenuPrice = 99;
-            string[] singleMenuItems = ["Mala", "Rice", "Drink"];
-            const int quantity = 1;
-
-            Console.WriteLine("You've ordered Single Set");
-            Console.WriteLine("\t   Items\t\tQuantity\n");
-            Console.WriteLine();
-            foreach (string singleMenuItem in singleMenuItems)
-            {
-                Console.WriteLine("\t{0}\t\t{1}\n", singleMenuItem, quantity);
-            }
+            Console.WriteLine("Single set has been added to your cart.");
             Console.WriteLine("Total amount : {0} Baht", singleMenuPrice);
         }
 
@@ -154,18 +145,9 @@ namespace MenuDrivenCLI
         static void CoupleMenuTable()
         {
             MenuTopBar();
-            const int doubleMenuPrice = 190;
-            string[] doubleMenuItems = ["Mala", "Rice", "Drink"];
-            const int quantity = 2;
-
-            Console.WriteLine("You've ordered Single Set");
-            Console.WriteLine("\t   Items\t\tQuantity\n");
-            Console.WriteLine();
-            foreach (string doubleMenuItem in doubleMenuItems)
-            {
-                Console.WriteLine("\t{0}\t\t{1}\n", doubleMenuItem, quantity);
-            }
-            Console.WriteLine("Total amount : {0} Baht", doubleMenuPrice);
+            const int coupleMenuPrice = 150;
+            Console.WriteLine("Couple set has been added to your cart.");
+            Console.WriteLine("Total amount : {0} Baht", coupleMenuPrice);
         }
 
         // custom
