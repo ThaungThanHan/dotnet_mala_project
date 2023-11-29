@@ -232,12 +232,14 @@ namespace MenuDrivenCLI
                         break;
                     case ConsoleKey.Enter:
                         isSelected = true;
+                        DispleyDryOrSoupTable();
                         break;
                 }
 
             }
             Console.WriteLine(totalAmount);
         }
+
         public static void ClearLine()
         {
             Console.SetCursorPosition(0, Console.CursorTop - 1);
@@ -276,6 +278,7 @@ namespace MenuDrivenCLI
                         break;
                     case ConsoleKey.Enter:
                         isSelected = true;
+                        DisplayDrinkTable();
                         break;
                 }
 
@@ -312,6 +315,7 @@ namespace MenuDrivenCLI
                         break;
                     case ConsoleKey.Enter:
                         isSelected = true;
+                        DisplaySpicyLevelTable();
                         break;
                 }
 
