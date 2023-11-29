@@ -136,14 +136,36 @@ namespace MenuDrivenCLI
         static void SingleMeuTable()
         {
             MenuTopBar();
-            //
+            const int singleMenuPrice = 99;
+            string[] singleMenuItems = ["Mala", "Rice", "Drink"];
+            const int quantity = 1;
+ 
+            Console.WriteLine("You've ordered Single Set");
+            Console.WriteLine("\t   Items\t\tQuantity\n");
+            Console.WriteLine();
+            foreach(string singleMenuItem in singleMenuItems)
+            {
+                Console.WriteLine("\t{0}\t\t{1}\n", singleMenuItem, quantity);
+            }
+            Console.WriteLine("Total amount : {0} Baht", singleMenuPrice);
         }
 
         // couple
         static void CoupleMenuTable()
         {
-            //
             MenuTopBar();
+            const int doubleMenuPrice = 190;
+            string[] doubleMenuItems = ["Mala", "Rice", "Drink"];
+            const int quantity = 2;
+
+            Console.WriteLine("You've ordered Single Set");
+            Console.WriteLine("\t   Items\t\tQuantity\n");
+            Console.WriteLine();
+            foreach (string doubleMenuItem in doubleMenuItems)
+            {
+                Console.WriteLine("\t{0}\t\t{1}\n", doubleMenuItem, quantity);
+            }
+            Console.WriteLine("Total amount : {0} Baht", doubleMenuPrice);
         }
 
         // custom
@@ -173,16 +195,19 @@ namespace MenuDrivenCLI
             Console.CursorVisible = false;
             string color = "\u001b[33;1m";
 
-            Console.WriteLine("\t   Items\t\tQuantity\t Instock\t  Price\n");
+            
+            Console.WriteLine("\t   Items\t\tQuantity\t\t  Amount\n");
             while (!isSelected)
             {
+                Console.Clear();
                 Console.SetCursorPosition(left, top);
                 for (int i = 0; i < items.Count(); i++)
                 {
                     Console.WriteLine($"\n\t{(menuoption == i + 1 ? color + "[]" : "  ")}{(items[i])}\u001b[0m" +
-                        $"\t\t   {(itemQuantity[i])}" + $"\t\t    {itemInStock[i]}" + $"\t\t    {itemPrice[i]}");
-            }
-                Console.WriteLine("\n\tTotal amount: " + totalAmount);
+                        $"\t\t   {(itemQuantity[i])}" + $"\t\t\t  {(itemPrice[i] * itemQuantity[i])} Baht");
+                }
+                Console.WriteLine("\n\tTotal amount : {0} Baht", totalAmount);
+                
                 Readkey = Console.ReadKey(true);
                 switch (Readkey.Key)
                 {
@@ -192,35 +217,11 @@ namespace MenuDrivenCLI
                     case ConsoleKey.UpArrow:
                         menuoption = (menuoption == 1 ? items.Count() : menuoption - 1);
                         break;
-                    case ConsoleKey.RightArrow:
-                        if (itemInStock[menuoption - 1] > 0) { 
-                            itemQuantity[menuoption - 1] += 1;
-                            itemInStock[menuoption - 1] -= 1;
-                            totalAmount += itemPrice[menuoption - 1];
-                            ClearLine();
-                        };
-                        break;
-                    case ConsoleKey.LeftArrow:
-                        if (itemQuantity[menuoption - 1] > 0) { 
-                            itemQuantity[menuoption - 1] -= 1;
-                            itemInStock[menuoption - 1] += 1;
-                            totalAmount -= itemPrice[menuoption - 1];
-                            ClearLine();
-                        }
-                        break;
                     case ConsoleKey.Enter:
                         isSelected = true;
                         break;
                 }
-
             }
-            Console.WriteLine(totalAmount);
-        }
-        public static void ClearLine()
-        {
-            Console.SetCursorPosition(0, Console.CursorTop - 1);
-            Console.Write(new string(' ', Console.WindowWidth));
-            Console.SetCursorPosition(0, Console.CursorTop - 1);
         }
 
         // spicy level
@@ -301,11 +302,10 @@ namespace MenuDrivenCLI
         {
             //
             int totalAmount = 0;
-            List<int> itemQuantity = new List<int>(new int[6]);
-            List<int> itemInStock = new List<int>() { 9, 9, 9, 9, 9, 9};
-            List<int> itemPrice = new List<int>() { 10, 15, 15, 15, 15, 10};
-            List<string> items = new List<string>() { "Water bottle", "Coca-cola", "Sprite", "Melon Milk", "Sunkist",
-                                                    "Iced Tea"};
+            List<int> itemQuantity = new List<int>(new int[5]);
+            List<int> itemInStock = new List<int>() { 9, 9, 9, 9, 9};
+            List<int> itemPrice = new List<int>() { 15, 15, 20, 10, 20 };
+            List<string> items = new List<string>() { "cola", "sprite", "milk", "water", "orange" };
 
             ConsoleKeyInfo Readkey;
             int menuoption = 1;
@@ -314,16 +314,19 @@ namespace MenuDrivenCLI
             Console.CursorVisible = false;
             string color = "\u001b[33;1m";
 
-            Console.WriteLine("\t   Items\t\tQuantity\t Instock\t  Price\n");
+
+            Console.WriteLine("\t   Items\t\tQuantity\t\t  Amount\n");
             while (!isSelected)
             {
+                Console.Clear();
                 Console.SetCursorPosition(left, top);
                 for (int i = 0; i < items.Count(); i++)
                 {
                     Console.WriteLine($"\n\t{(menuoption == i + 1 ? color + "[]" : "  ")}{(items[i])}\u001b[0m" +
-                        $"\t\t   {(itemQuantity[i])}" + $"\t\t    {itemInStock[i]}" + $"\t\t    {itemPrice[i]}");
+                        $"\t\t   {(itemQuantity[i])}" + $"\t\t\t  {(itemPrice[i] * itemQuantity[i])} Baht");
                 }
-                Console.WriteLine("\n\tTotal amount: " + totalAmount);
+                Console.WriteLine("\n\tTotal amount : {0} Baht", totalAmount);
+
                 Readkey = Console.ReadKey(true);
                 switch (Readkey.Key)
                 {
@@ -333,33 +336,13 @@ namespace MenuDrivenCLI
                     case ConsoleKey.UpArrow:
                         menuoption = (menuoption == 1 ? items.Count() : menuoption - 1);
                         break;
-                    case ConsoleKey.RightArrow:
-                        if (itemInStock[menuoption - 1] > 0)
-                        {
-                            itemQuantity[menuoption - 1] += 1;
-                            itemInStock[menuoption - 1] -= 1;
-                            totalAmount += itemPrice[menuoption - 1];
-                            ClearLine();
-                        };
-                        break;
-                    case ConsoleKey.LeftArrow:
-                        if (itemQuantity[menuoption - 1] > 0)
-                        {
-                            itemQuantity[menuoption - 1] -= 1;
-                            itemInStock[menuoption - 1] += 1;
-                            totalAmount -= itemPrice[menuoption - 1];
-                            ClearLine();
-                        }
-                        break;
                     case ConsoleKey.Enter:
                         isSelected = true;
                         break;
                 }
-
             }
-            Console.WriteLine(totalAmount);
-
-        }
+        
+    }
 
         // card ( edit & details )
         static void DisplayCard_Edit_Details()
