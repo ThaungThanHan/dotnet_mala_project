@@ -275,7 +275,7 @@ namespace MenuDrivenCLI
                 Console.SetCursorPosition(left, top);
                 Console.WriteLine($"\n\t{(option == 1 ? color + "[]" : "  ")}Dry\u001b[0m");
                 Console.WriteLine($"\t{(option == 2 ? color + "[]" : "  ")}Soup\u001b[0m");
-               
+
 
 
                 Readkey = Console.ReadKey(true);
@@ -295,7 +295,6 @@ namespace MenuDrivenCLI
 
             }
         }
-
         // drink
         static void DisplayDrinkTable()
         {
@@ -370,7 +369,7 @@ namespace MenuDrivenCLI
         // coupon
         static void DisplayCouponTable(int totalAmount)
         {
-            List<int> couponCode = new List<int>() { 998834,969340,010221,020325,992400, 183654 ,490827 };
+            List<int> couponCode = new List<int>() { 998834, 969340, 010221, 020325, 992400, 183654, 490827 };
             Console.WriteLine("Do you have any coupon code?");
             double discount = 0.0;
             ConsoleKeyInfo Readkey;
@@ -380,13 +379,13 @@ namespace MenuDrivenCLI
             Console.CursorVisible = false;
             string color = "\u001b[33;1m";
 
-            while(!isSelected)
+            while (!isSelected)
             {
                 Console.WriteLine($"\n\t{(option == 1 ? color + ">" : " ")}Yes\u001b[0m");
                 Console.WriteLine($"\t{(option == 2 ? color + ">" : " ")}No\u001b[0m");
             }
 
-             Readkey = Console.ReadKey(true);
+            Readkey = Console.ReadKey(true);
 
             switch (Readkey.Key)
             {
@@ -402,18 +401,19 @@ namespace MenuDrivenCLI
 
             }
 
-            
+
             if (isSelected && option == 1)
             {
                 Console.WriteLine("Enter your coupon code: ");
                 int enteredCode;
-                if(int.TryParse(Console.ReadLine(), out enteredCode))
+                if (int.TryParse(Console.ReadLine(), out enteredCode))
                 {
-                    if(couponCode.Contains(enteredCode))
+                    if (couponCode.Contains(enteredCode))
                     {
                         discount = totalAmount * 0.05;
                         Console.WriteLine($"Discount of {discount} Baht applied");
-                    }else
+                    }
+                    else
                     {
                         Console.WriteLine("Invalid coupon code. No discount applied");
                     }
@@ -425,7 +425,6 @@ namespace MenuDrivenCLI
             }
 
         }
-
 
         // purchace
         static void Purchace()
