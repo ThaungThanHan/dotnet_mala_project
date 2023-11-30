@@ -192,7 +192,7 @@ namespace MenuDrivenCLI
             menu_totalAmount = singleMenuPrice;
             Console.WriteLine("Single set has been added to your cart.");
             Console.WriteLine("Total amount : {0} Baht", singleMenuPrice);
-            DisplaySpicyLevelTable();
+            DispleyDryOrSoupTable();
         }
 
         // couple
@@ -204,7 +204,7 @@ namespace MenuDrivenCLI
 
             Console.WriteLine("Couple set has been added to your cart.");
             Console.WriteLine("Total amount : {0} Baht", coupleMenuPrice);
-            DisplaySpicyLevelTable();
+            DispleyDryOrSoupTable();
 
         }
 
@@ -576,6 +576,41 @@ namespace MenuDrivenCLI
                     }
 
                 }
+            }else{
+
+                ConsoleKeyInfo Readkey;
+                int option = 1;
+                bool isSelected = false;
+                (int left, int top) = Console.GetCursorPosition();
+                Console.CursorVisible = false;
+                string color = "\u001b[33;1m";
+                while (!isSelected)
+                {
+                    Console.SetCursorPosition(left, top);
+                    // Console.WriteLine($"\n\t{(option == 1 ? color + "[]" : "  ")}Edit\u001b[0m");
+                    Console.WriteLine($"\t{(option == 2 ? color + "[]" : "  ")}Continue\u001b[0m");
+
+
+
+                    Readkey = Console.ReadKey(true);
+
+                    switch (Readkey.Key)
+                    {
+                        // case ConsoleKey.DownArrow:
+                        //     option = (option == 2 ? 1 : 2);
+                        //     break;
+                        // case ConsoleKey.UpArrow:
+                        //     option = (option == 1 ? 2 : 1);
+                        //     break;
+                        case ConsoleKey.Enter:
+                            isSelected = true;
+                            DisplayInvoice();
+                            break;
+
+                    }
+
+                }
+
             }
         }
 
