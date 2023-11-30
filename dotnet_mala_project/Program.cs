@@ -21,16 +21,16 @@ namespace MenuDrivenCLI
 
         // menu marlar
         public static int menu_totalAmount = 0;
-        public static List<int> menu_itemQuantity = [];
-        public static List<int> menu_itemInStock =[];
+        public static List<int> menu_itemQuantity = new List<int>();
+        public static List<int> menu_itemInStock = new List<int>();
         public static List<int> menu_itemPrice = new List<int>() { 5, 5, 10, 5, 5, 10, 10, 7, 5, 5 };
         public static List<string> menu_items = new List<string>() { "crab stick", "sausage", "noodle", "fish tofu", "chicken",
                                                     "mushroom", "enoki(1g)", "broccoli", "potato", "quail egg" };
 
         // drink
         public static int drink_totalAmount = 0;
-        public static List<int> drink_itemQuantity = [];
-        public static List<int> drink_itemInStock =[];
+        public static List<int> drink_itemQuantity = new List<int>();
+        public static List<int> drink_itemInStock = new List<int>();
         public static List<int> drink_itemPrice = new List<int>() { 10, 15, 15, 15, 15, 10 };
         public static List<string> drink_items = new List<string>() { "Water bottle", "Coca-cola", "Sprite", "Melon Milk", "Sunkist", "Iced Tea" };
 
