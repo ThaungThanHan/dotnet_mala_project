@@ -6,22 +6,57 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace MenuDrivenCLI
 {
     class Program
     {
+        // menu cli
+        public static int menu_option = 0;
+        public static List<int> couponCode = new List<int>() { 998834, 969340, 010221, 020325, 992400, 183654, 490827 };
 
-        // Main
+
+        public static int menu_spicyLevel = 0;
+
+        // menu marlar
+        public static int menu_totalAmount = 0;
+        public static List<int> menu_itemQuantity = [];
+        public static List<int> menu_itemInStock = new List<int>() { 9, 9, 9, 9, 9, 9, 9, 9, 9, 9 };
+        public static List<int> menu_itemPrice = new List<int>() { 5, 5, 10, 5, 5, 10, 10, 7, 5, 5 };
+        public static List<string> menu_items = new List<string>() { "crab stick", "sausage", "noodle", "fish tofu", "chicken",
+                                                    "mushroom", "enoki(1g)", "broccoli", "potato", "quail egg" };
+
+        // drink
+        public static int drink_totalAmount = 0;
+        public static List<int> drink_itemQuantity = [];
+        public static List<int> drink_itemInStock = new List<int>() { 9, 9, 9, 9, 9, 9 };
+        public static List<int> drink_itemPrice = new List<int>() { 10, 15, 15, 15, 15, 10 };
+        public static List<string> drink_items = new List<string>() { "Water bottle", "Coca-cola", "Sprite", "Melon Milk", "Sunkist", "Iced Tea" };
+
         static void Main(string[] args)
         {
+            RunMain(args);
+        }
+        // Main
+        static void RunMain(string[] args)
+        {
+            Console.Clear();
             MenuTopBar();
             Console.WriteLine("Welcome to the DotNet-MaLa Menu CLI!");
             Console.WriteLine("Choose an option:");
 
+            menu_totalAmount = 0;
+            drink_totalAmount = 0;
+            menu_spicyLevel = 0;
+            menu_option = 0;
+            menu_itemQuantity = new List<int>(new int[10]);
+            drink_itemQuantity = new List<int>(new int[6]);
+
             ConsoleKeyInfo Readkey;
             int option = 1;
             bool isSelected = false;
+
             (int left, int top) = Console.GetCursorPosition();
             Console.CursorVisible = false;
             string color = "\u001b[33;1m";
@@ -30,31 +65,31 @@ namespace MenuDrivenCLI
                 Console.SetCursorPosition(left, top);
                 Console.WriteLine($"\n\t{(option == 1 ? color + "[]" : "  ")}Dine IN\u001b[0m");
                 Console.WriteLine($"\t{(option == 2 ? color + "[]" : "  ")}Take Away\u001b[0m");
-            
-            Readkey = Console.ReadKey(true);
 
-            switch(Readkey.Key){
-                case ConsoleKey.DownArrow:
-                 option = (option == 2? 1: 2); 
-                 break;
-                case ConsoleKey.UpArrow:
-                    option = (option == 1 ? 2 : 1);
-                    break;
-                case ConsoleKey.Enter:
-                  isSelected = true;
-                  break;
-            }
+                Readkey = Console.ReadKey(true);
+
+                switch (Readkey.Key)
+                {
+                    case ConsoleKey.DownArrow:
+                        option = (option == 2 ? 1 : 2);
+                        break;
+                    case ConsoleKey.UpArrow:
+                        option = (option == 1 ? 2 : 1);
+                        break;
+                    case ConsoleKey.Enter:
+                        isSelected = true;
+                        break;
+                }
             }
             int seletedOption = option;
-            switch (seletedOption){
+            switch (seletedOption)
+            {
                 case 1:
                     DineIn();
                     break;
                 case 2:
-                   TakeAway();
-                   break;
-
-
+                    TakeAway();
+                    break;
             }
 
         }
@@ -62,7 +97,17 @@ namespace MenuDrivenCLI
         static void MenuTopBar()
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("\n\n\tDotNet-MaLa Menu CLI!\n");
+            Console.WriteLine(@"     
+##   ##    ##     ####       ##     
+ ## ##      ##     ##         ##    
+# ### #   ## ##    ##       ## ##   
+## # ##   ##  ##   ##       ##  ##  
+##   ##   ## ###   ##       ## ###  
+##   ##   ##  ##   ##  ##   ##  ##  
+##   ##  ###  ##  ### ###  ###  ##  
+ 
+        ");
+            Console.WriteLine("\n\t\t.NetMaLa Menu CLI!\n");
             Console.ForegroundColor = ConsoleColor.White;
         }
 
@@ -118,7 +163,9 @@ namespace MenuDrivenCLI
                 }
             }
             int seletedOption = menuoption;
+            menu_option = menuoption; ;
             switch (seletedOption)
+
             {
                 case 1:
                     SingleMeuTable();
@@ -154,8 +201,8 @@ namespace MenuDrivenCLI
         static void DisplayCustomMenuTable()
         {
             //
-            MenuTopBar();
             Console.Clear();
+            MenuTopBar();
             DisplayCustomMenuOptions();
         }
 
@@ -163,12 +210,7 @@ namespace MenuDrivenCLI
         static void DisplayCustomMenuOptions()
         {
             //
-            int totalAmount = 0;
-            List<int> itemQuantity = new List<int>(new int[10]);
-            List<int> itemInStock = new List<int>() { 9, 9, 9, 9, 9, 9, 9, 9, 9, 9 };
-            List<int> itemPrice = new List<int>() { 5, 5, 10, 5, 5, 10, 10, 7, 5, 5 };
-            List<string> items = new List<string>() { "crab stick", "sausage", "noodle", "fish tofu", "chicken",
-                                                    "mushroom", "enoki(1g)", "broccoli", "potato", "quail egg" };
+
 
             ConsoleKeyInfo Readkey;
             int menuoption = 1;
@@ -181,34 +223,36 @@ namespace MenuDrivenCLI
             while (!isSelected)
             {
                 Console.SetCursorPosition(left, top);
-                for (int i = 0; i < items.Count(); i++)
+                for (int i = 0; i < menu_items.Count(); i++)
                 {
-                    Console.WriteLine($"\n\t{(menuoption == i + 1 ? color + "[]" : "  ")}{(items[i])}\u001b[0m" +
-                        $"\t\t   {(itemQuantity[i])}" + $"\t\t    {itemInStock[i]}" + $"\t\t    {itemPrice[i]}");
-            }
-                Console.WriteLine("\n\tTotal amount: " + totalAmount);
+                    Console.WriteLine($"\n\t{(menuoption == i + 1 ? color + "[]" : "  ")}{(menu_items[i])}\u001b[0m" +
+                        $"\t\t   {(menu_itemQuantity[i])}" + $"\t\t    {menu_itemInStock[i]}" + $"\t\t    {menu_itemPrice[i]}");
+                }
+                Console.WriteLine("\n\tTotal amount: " + menu_totalAmount);
                 Readkey = Console.ReadKey(true);
                 switch (Readkey.Key)
                 {
                     case ConsoleKey.DownArrow:
-                        menuoption = (menuoption == items.Count() ? 1 : menuoption + 1);
+                        menuoption = (menuoption == menu_items.Count() ? 1 : menuoption + 1);
                         break;
                     case ConsoleKey.UpArrow:
-                        menuoption = (menuoption == 1 ? items.Count() : menuoption - 1);
+                        menuoption = (menuoption == 1 ? menu_items.Count() : menuoption - 1);
                         break;
                     case ConsoleKey.RightArrow:
-                        if (itemInStock[menuoption - 1] > 0) { 
-                            itemQuantity[menuoption - 1] += 1;
-                            itemInStock[menuoption - 1] -= 1;
-                            totalAmount += itemPrice[menuoption - 1];
+                        if (menu_itemInStock[menuoption - 1] > 0)
+                        {
+                            menu_itemQuantity[menuoption - 1] += 1;
+                            menu_itemInStock[menuoption - 1] -= 1;
+                            menu_totalAmount += menu_itemPrice[menuoption - 1];
                             ClearLine();
                         };
                         break;
                     case ConsoleKey.LeftArrow:
-                        if (itemQuantity[menuoption - 1] > 0) { 
-                            itemQuantity[menuoption - 1] -= 1;
-                            itemInStock[menuoption - 1] += 1;
-                            totalAmount -= itemPrice[menuoption - 1];
+                        if (menu_itemQuantity[menuoption - 1] > 0)
+                        {
+                            menu_itemQuantity[menuoption - 1] -= 1;
+                            menu_itemInStock[menuoption - 1] += 1;
+                            menu_totalAmount -= menu_itemPrice[menuoption - 1];
                             ClearLine();
                         }
                         break;
@@ -219,7 +263,7 @@ namespace MenuDrivenCLI
                 }
 
             }
-            Console.WriteLine(totalAmount);
+            Console.WriteLine(menu_totalAmount);
         }
 
         public static void ClearLine()
@@ -232,7 +276,9 @@ namespace MenuDrivenCLI
         // spicy level
         static void DisplaySpicyLevelTable()
         {
-            Console.WriteLine("Select your spicy level");
+            Console.Clear();
+            MenuTopBar();
+            Console.WriteLine("\tSelect your spicy level");
             ConsoleKeyInfo Readkey;
             int option = 1;
             bool isSelected = false;
@@ -260,6 +306,7 @@ namespace MenuDrivenCLI
                         break;
                     case ConsoleKey.Enter:
                         isSelected = true;
+                        menu_spicyLevel = option;
                         DisplayDrinkTable();
                         break;
                 }
@@ -270,6 +317,8 @@ namespace MenuDrivenCLI
         // dry or soup
         static void DispleyDryOrSoupTable()
         {
+            Console.Clear();
+            MenuTopBar();
             Console.WriteLine("Dry or Soup");
             ConsoleKeyInfo Readkey;
             int option = 1;
@@ -306,13 +355,8 @@ namespace MenuDrivenCLI
         // drink
         static void DisplayDrinkTable()
         {
-            //
-            int totalAmount = 0;
-            List<int> itemQuantity = new List<int>(new int[6]);
-            List<int> itemInStock = new List<int>() { 9, 9, 9, 9, 9, 9};
-            List<int> itemPrice = new List<int>() { 10, 15, 15, 15, 15, 10};
-            List<string> items = new List<string>() { "Water bottle", "Coca-cola", "Sprite", "Melon Milk", "Sunkist",
-                                                    "Iced Tea"};
+            Console.Clear();
+            MenuTopBar();
 
             ConsoleKeyInfo Readkey;
             int menuoption = 1;
@@ -325,59 +369,204 @@ namespace MenuDrivenCLI
             while (!isSelected)
             {
                 Console.SetCursorPosition(left, top);
-                for (int i = 0; i < items.Count(); i++)
+                for (int i = 0; i < drink_items.Count(); i++)
                 {
-                    Console.WriteLine($"\n\t{(menuoption == i + 1 ? color + "[]" : "  ")}{(items[i])}\u001b[0m" +
-                        $"\t\t   {(itemQuantity[i])}" + $"\t\t    {itemInStock[i]}" + $"\t\t    {itemPrice[i]}");
+                    Console.WriteLine($"\n\t{(menuoption == i + 1 ? color + "[]" : "  ")}{(drink_items[i])}\u001b[0m" +
+                        $"\t\t   {(drink_itemQuantity[i])}" + $"\t\t    {drink_itemInStock[i]}" + $"\t\t    {drink_itemPrice[i]}");
                 }
-                Console.WriteLine("\n\tTotal amount: " + totalAmount);
+                Console.WriteLine("\n\tTotal amount: " + drink_totalAmount);
                 Readkey = Console.ReadKey(true);
                 switch (Readkey.Key)
                 {
                     case ConsoleKey.DownArrow:
-                        menuoption = (menuoption == items.Count() ? 1 : menuoption + 1);
+                        menuoption = (menuoption == drink_items.Count() ? 1 : menuoption + 1);
                         break;
                     case ConsoleKey.UpArrow:
-                        menuoption = (menuoption == 1 ? items.Count() : menuoption - 1);
+                        menuoption = (menuoption == 1 ? drink_items.Count() : menuoption - 1);
                         break;
                     case ConsoleKey.RightArrow:
-                        if (itemInStock[menuoption - 1] > 0)
+                        if (drink_itemInStock[menuoption - 1] > 0)
                         {
-                            itemQuantity[menuoption - 1] += 1;
-                            itemInStock[menuoption - 1] -= 1;
-                            totalAmount += itemPrice[menuoption - 1];
+                            drink_itemQuantity[menuoption - 1] += 1;
+                            drink_itemInStock[menuoption - 1] -= 1;
+                            drink_totalAmount += drink_itemPrice[menuoption - 1];
                             ClearLine();
                         };
                         break;
                     case ConsoleKey.LeftArrow:
-                        if (itemQuantity[menuoption - 1] > 0)
+                        if (drink_itemQuantity[menuoption - 1] > 0)
                         {
-                            itemQuantity[menuoption - 1] -= 1;
-                            itemInStock[menuoption - 1] += 1;
-                            totalAmount -= itemPrice[menuoption - 1];
+                            drink_itemQuantity[menuoption - 1] -= 1;
+                            drink_itemInStock[menuoption - 1] += 1;
+                            drink_totalAmount -= drink_itemPrice[menuoption - 1];
                             ClearLine();
                         }
                         break;
                     case ConsoleKey.Enter:
                         isSelected = true;
+
                         break;
                 }
-
             }
-            Console.WriteLine(totalAmount);
+            Console.WriteLine(drink_totalAmount);
+            DisplayCard_Edit_Details();
 
         }
 
         // card ( edit & details )
         static void DisplayCard_Edit_Details()
         {
-            //
+            Console.Clear();
+            MenuTopBar();
+            Console.WriteLine("\tPlease Check Before Order");
+           
+            var table = new ConsoleTable("Items", "Quantity", "Price");
+            if (menu_option == 3)
+            {
+                table.AddRow("CUSTOM SET",
+                                   "",
+                                    "");
+                for (int i = 0; i < menu_items.Count; i++)
+                {
+                    if (menu_itemQuantity[i] != 0)
+                    {
+                        // Set red color for menu items
+                        table.AddRow(menu_items[i],
+                 menu_itemQuantity[i],
+                 menu_itemPrice[i]);
+                    }
+                }
+            }
+
+
+            table.AddRow("DRINK",
+                                    "",
+                                     "");
+
+            for (int i = 0; i < drink_items.Count; i++)
+            {
+                if (drink_itemQuantity[i] != 0)
+                {
+                    // Set blue color for drink items
+                    table.AddRow(drink_items[i],
+                                     drink_itemQuantity[i],
+                                     drink_itemPrice[i]);
+                }
+            }
+            table.AddRow("",
+                                    "",
+                                     "");
+
+            table.AddRow("Spicy",
+                                    "",
+                                     "");
+
+            int total = drink_totalAmount + menu_totalAmount;
+            // Console.WriteLine("\n\tTotal amount: " + total);
+            table.AddRow("",
+                                   "Total",
+                                    total);
+            table.Write();
+
+            string menuOptionText;
+            string colorCode = "";
+
+            switch (menu_option)
+            {
+                case 1:
+                    menuOptionText = "Single Menu";
+                    colorCode = "\x1b[33m"; // Yellow color
+                    break;
+                case 2:
+                    menuOptionText = "Couple Menu";
+                    colorCode = "\x1b[35m"; // Purple color
+                    break;
+                case 3:
+                    menuOptionText = "Custom Menu";
+                    colorCode = "\x1b[36m"; // Cyan color
+                    break;
+                default:
+                    menuOptionText = "----";
+                    break;
+            }
+
+            Console.WriteLine($"\n\tMenu Option: {colorCode}{menuOptionText}\x1b[0m"); string spicyLevelText;
+            string colorCode12 = "";
+
+            switch (menu_spicyLevel)
+            {
+                case 1:
+                    spicyLevelText = "Mild";
+                    colorCode12 = "\x1b[33m"; // Yellow color
+                    break;
+                case 2:
+                    spicyLevelText = "Medium";
+                    colorCode12 = "\x1b[31m"; // Red color
+                    break;
+                case 3:
+                    spicyLevelText = "Hot";
+                    colorCode12 = "\x1b[91m"; // Light Red color
+                    break;
+                case 4:
+                    spicyLevelText = "Extra Hot";
+                    colorCode12 = "\x1b[35m"; // Purple color
+                    break;
+                default:
+                    spicyLevelText = "----";
+                    break;
+            }
+            Console.WriteLine($"\n\tSpicy Level: {colorCode12}{spicyLevelText}\x1b[0m");
+
+            if (menu_option == 3)
+            {
+
+                ConsoleKeyInfo Readkey;
+                int option = 1;
+                bool isSelected = false;
+                (int left, int top) = Console.GetCursorPosition();
+                Console.CursorVisible = false;
+                string color = "\u001b[33;1m";
+                while (!isSelected)
+                {
+                    Console.SetCursorPosition(left, top);
+                    Console.WriteLine($"\n\t{(option == 1 ? color + "[]" : "  ")}Edit\u001b[0m");
+                    Console.WriteLine($"\t{(option == 2 ? color + "[]" : "  ")}Continue\u001b[0m");
+
+
+
+                    Readkey = Console.ReadKey(true);
+
+                    switch (Readkey.Key)
+                    {
+                        case ConsoleKey.DownArrow:
+                            option = (option == 2 ? 1 : 2);
+                            break;
+                        case ConsoleKey.UpArrow:
+                            option = (option == 1 ? 2 : 1);
+                            break;
+                        case ConsoleKey.Enter:
+                            isSelected = true;
+                            if (option== 1) {
+                                DisplayCustomMenuTable();
+                                break;
+                            }else{
+                                // DisplayCouponTable();
+                                DisplayInvoice();
+                                break;
+                            }
+
+                    }
+
+                }
+            }
         }
 
         // coupon
-        static void DisplayCouponTable(int totalAmount)
+        static void DisplayCouponTable()
         {
-            List<int> couponCode = new List<int>() { 998834, 969340, 010221, 020325, 992400, 183654, 490827 };
+
+            Console.Clear();
+            MenuTopBar();
             Console.WriteLine("Do you have any coupon code?");
             double discount = 0.0;
             ConsoleKeyInfo Readkey;
@@ -418,7 +607,7 @@ namespace MenuDrivenCLI
                 {
                     if (couponCode.Contains(enteredCode))
                     {
-                        discount = totalAmount * 0.05;
+                        discount = menu_totalAmount * 0.05;
                         Console.WriteLine($"Discount of {discount} Baht applied");
                     }
                     else
@@ -455,13 +644,58 @@ namespace MenuDrivenCLI
         // invoice 
         static void DisplayInvoice()
         {
-            // var table = new ConsoleTable("Option", "Description");
-            // table.AddRow(1, "Option 1");
-            // table.AddRow(2, "Option 2");
-            // table.AddRow(3, "Option 3");
-            // table.AddRow(4, "Exit");
+            var table = new ConsoleTable("Item", "Price");
+            table.AddRow("Mala", "####");
+            table.AddRow("Drink", "####");
+            table.AddRow("Menu Type", "####");
+            table.AddRow("Total Price", "####");
 
-            // table.Write();
+            table.Write();
+
+
+            Console.WriteLine("Re new your order");
+
+            ConsoleKeyInfo Readkey;
+            int option = 1;
+            bool isSelected = false;
+            (int left, int top) = Console.GetCursorPosition();
+            Console.CursorVisible = false;
+            string color = "\u001b[33;1m";
+            while (!isSelected)
+            {
+                Console.SetCursorPosition(left, top);
+                Console.WriteLine($"\n\t{(option == 1 ? color + "[]" : "  ")}Yes\u001b[0m");
+                Console.WriteLine($"\t{(option == 2 ? color + "[]" : "  ")}No\u001b[0m");
+
+
+
+                Readkey = Console.ReadKey(true);
+
+                switch (Readkey.Key)
+                {
+                    case ConsoleKey.DownArrow:
+                        option = (option == 2 ? 1 : 2);
+                        break;
+                    case ConsoleKey.UpArrow:
+                        option = (option == 1 ? 2 : 1);
+                        break;
+                    case ConsoleKey.Enter:
+                        isSelected = true;
+                        if (option == 1)
+                        {
+                            string fileName = Process.GetCurrentProcess().MainModule.FileName; // Get the current process file name
+                            Process.Start(fileName); 
+                            break;
+                        }
+                        else
+                        {
+                           
+                            break;
+                        }
+
+                }
+
+            }
         }
 
     }
