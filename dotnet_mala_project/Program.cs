@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Numerics;
 
 namespace MenuDrivenCLI
 {
@@ -21,6 +22,7 @@ namespace MenuDrivenCLI
 
         // menu marlar
         public static int menu_totalAmount = 0;
+
         public static List<int> menu_itemQuantity = new List<int>();
         public static List<int> menu_itemInStock = new List<int>();
         public static List<int> menu_itemPrice = new List<int>() { 5, 5, 10, 5, 5, 10, 10, 7, 5, 5 };
@@ -29,6 +31,7 @@ namespace MenuDrivenCLI
 
         // drink
         public static int drink_totalAmount = 0;
+
         public static List<int> drink_itemQuantity = new List<int>();
         public static List<int> drink_itemInStock = new List<int>();
         public static List<int> drink_itemPrice = new List<int>() { 10, 15, 15, 15, 15, 10 };
@@ -36,10 +39,10 @@ namespace MenuDrivenCLI
 
         static void Main(string[] args)
         {
-            RunMain(args);
+            RunMain();
         }
         // Main
-        static void RunMain(string[] args)
+        static void RunMain()
         {
             Console.Clear();
             MenuTopBar();
@@ -186,8 +189,10 @@ namespace MenuDrivenCLI
         {
             MenuTopBar();
             const int singleMenuPrice = 99;
+            menu_totalAmount = singleMenuPrice;
             Console.WriteLine("Single set has been added to your cart.");
             Console.WriteLine("Total amount : {0} Baht", singleMenuPrice);
+            DisplaySpicyLevelTable();
         }
 
         // couple
@@ -195,8 +200,12 @@ namespace MenuDrivenCLI
         {
             MenuTopBar();
             const int coupleMenuPrice = 150;
+            menu_totalAmount = coupleMenuPrice;
+
             Console.WriteLine("Couple set has been added to your cart.");
             Console.WriteLine("Total amount : {0} Baht", coupleMenuPrice);
+            DisplaySpicyLevelTable();
+
         }
 
         // custom
@@ -421,7 +430,7 @@ namespace MenuDrivenCLI
             Console.Clear();
             MenuTopBar();
             Console.WriteLine("\tPlease Check Before Order");
-           
+
             var table = new ConsoleTable("Items", "Quantity", "Price");
             if (menu_option == 3)
             {
@@ -438,12 +447,16 @@ namespace MenuDrivenCLI
                  menu_itemPrice[i]);
                     }
                 }
+            }else{
+                table.AddRow("MALA",
+                                    "",
+                                     menu_totalAmount);
             }
 
 
-            table.AddRow("DRINK",
-                                    "",
-                                     "");
+            // table.AddRow("DRINK",
+            //                         "",
+            //                          "");
 
             for (int i = 0; i < drink_items.Count; i++)
             {
@@ -459,9 +472,9 @@ namespace MenuDrivenCLI
                                     "",
                                      "");
 
-            table.AddRow("Spicy",
-                                    "",
-                                     "");
+            // table.AddRow("Spicy",
+            //                         "",
+            //                          "");
 
             int total = drink_totalAmount + menu_totalAmount;
             // Console.WriteLine("\n\tTotal amount: " + total);
@@ -548,10 +561,13 @@ namespace MenuDrivenCLI
                             break;
                         case ConsoleKey.Enter:
                             isSelected = true;
-                            if (option== 1) {
+                            if (option == 1)
+                            {
                                 DisplayCustomMenuTable();
                                 break;
-                            }else{
+                            }
+                            else
+                            {
                                 // DisplayCouponTable();
                                 DisplayInvoice();
                                 break;
@@ -646,11 +662,32 @@ namespace MenuDrivenCLI
         // invoice 
         static void DisplayInvoice()
         {
+            Console.Clear();
+            MenuTopBar();
             var table = new ConsoleTable("Item", "Price");
-            table.AddRow("Mala", "####");
-            table.AddRow("Drink", "####");
-            table.AddRow("Menu Type", "####");
-            table.AddRow("Total Price", "####");
+            if (menu_option == 3) table.AddRow("Mala", menu_totalAmount);
+            if (menu_option == 3) table.AddRow("Drink", drink_totalAmount);
+           
+            string menuType = "";
+
+            switch (menu_option)
+            {
+                case 1:
+                    menuType = "\x1b[31mSingle Menu\x1b[0m"; // Red color for Single Menu
+                    break;
+                case 2:
+                    menuType = "\x1b[34mCouple Menu\x1b[0m"; // Blue color for Couple Menu
+                    break;
+                case 3:
+                    menuType = "\x1b[33mCustom Menu\x1b[0m"; // Yellow color for Custom Menu
+                    break;
+                default:
+                    menuType = "\x1b[35mUnknown\x1b[0m"; // Magenta color for Unknown
+                    break;
+            }
+            table.AddRow("Type", menuType);
+            int total = menu_totalAmount+ drink_totalAmount;
+            table.AddRow("Total Price", total);
 
             table.Write();
 
@@ -685,13 +722,12 @@ namespace MenuDrivenCLI
                         isSelected = true;
                         if (option == 1)
                         {
-                            string fileName = Process.GetCurrentProcess().MainModule.FileName; // Get the current process file name
-                            Process.Start(fileName); 
+                            RunMain();
                             break;
                         }
                         else
                         {
-                           
+
                             break;
                         }
 
